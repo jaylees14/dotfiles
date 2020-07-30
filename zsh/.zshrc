@@ -2,7 +2,9 @@ export ZSH=/Users/jay/.oh-my-zsh
 
 ZSH_THEME="gitster"
 plugins=(
+  colored-man-pages
   git
+  jsontools
   osx
   web-search
   vi-mode
@@ -12,16 +14,14 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-alias todo="todolist"
-alias today="icalbuddy -eep 'notes,url' -b '' -nc eventsToday+1"
-alias github="open 'https://github.com'"
 alias gitviz="git log --graph --full-history --all --pretty=format:'%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s'"
 alias vim=nvim
+alias vi=nvim
 
 # Enable Vim mode in zsh
 bindkey -v
 bindkey '\e[3~' delete-char
-bindkey '^R' history-incremental-seach-backward
+bindkey '^R' history-incremental-search-backward
 
 # updates editor information when keymap changes
 function zle-keymap-select {
@@ -56,7 +56,7 @@ bindkey "^[OB" down-line-or-beginning-search
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
 
-
 # Wait 0.1s to switch between modes
 export KEYTIMEOUT=1
-export GOPATH=$HOME/go
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -1,17 +1,27 @@
-" ------------------------ 
-" Plugins 
 " ------------------------
-call plug#begin('~/.vim/plugged')
-Plug 'rakr/vim-one'
-Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'scrooloose/nerdtree'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-call plug#end()
+" Configure Vundle
+" ------------------------
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+
+" ------------------------
+" Plugins
+" ------------------------
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'mcmartelle/vim-monokai-bold'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'kien/ctrlp.vim'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'tpope/vim-surround'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'fatih/vim-go'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+call vundle#end()
+filetype plugin indent on
 
 " ------------------------
 " General Settings
@@ -20,16 +30,16 @@ syntax on
 set autoindent
 set autoread
 set backspace=indent,eol,start
-set clipboard=unnamedplus
+set cmdheight=1
 set completeopt-=preview
-set encoding=utf-8
+set encoding=UTF-8
 set expandtab
 set formatoptions=tcqronj
+set hlsearch
 set list
 set listchars=tab:\|\ ,trail:▫
 set nospell
 set noswapfile
-set nowrap
 set noerrorbells
 set novisualbell
 set number
@@ -37,10 +47,13 @@ set relativenumber
 set ruler
 set smartindent
 set shiftwidth=2
+set spell spelllang=en_gb
 set softtabstop=2
 set tabstop=2
+set ttimeoutlen=0
 set title
 set updatetime=100
+set wrap
 
 let mapleader = ','
 
@@ -49,6 +62,18 @@ augroup numbertoggle
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
+
+" https://stackoverflow.com/questions/6488683/how-do-i-change-the-vim-cursor-in-insert-normal-mode
+let &t_SI = "\e[6 q" "Insert mode
+let &t_EI = "\e[2 q" "Normal mode
+
+augroup curse
+  au!
+  autocmd VimEnter * silent !echo -ne "\e[2 q"
+augroup END
+
+autocmd InsertEnter * set cul
+autocmd InsertLeave * set nocul
 
 " ------------------------
 " General Key Bindings
@@ -67,27 +92,8 @@ map      <leader>c :nohlsearch<cr>
 " Colors
 " ------------------------
 set termguicolors
-set background=dark
-colorscheme one
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+colorscheme monokai-bold
 highlight Search guibg=DeepPink4 guifg=White ctermbg=53 ctermfg=White
-
-" ------------------------
-" Plugin: deoplete
-" ------------------------
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#gocode_binary = $HOME.'/go/bin/gocode'
-let g:deoplete#sources#go#source_importer = 1
-
-call deoplete#custom#option({
-\ 'auto_complete_delay': 0,
-\ 'auto_refresh_delay': 10,
-\})
-
-" ------------------------
-" Plugin: FZF
-" ------------------------
-nnoremap <c-p> :FZF<cr>
 
 " ------------------------
 " Plugin: NerdTree
@@ -109,5 +115,3 @@ au FileType go set shiftwidth=4
 au FileType go set softtabstop=4
 au FileType go set tabstop=4
 
-" Run goimports when running gofmt
-let g:go_fmt_command = "goimports"
