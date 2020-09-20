@@ -1,6 +1,6 @@
-Init with:
+# Dotfiles
 
-  `stow vim`
-
-  `stow zsh`
-
+```
+stow config -t $HOME/.config
+stow zsh
+```
